@@ -89,8 +89,9 @@ jobs:
       - name: download current task task-definition
         run: |
           aws ecs describe-task-definition \
-          --task-definition ${{env.TASK_NAME}}\
-          --query taskDefinition > task-definition.json
+            --task-definition ${{ env.TASK_NAME }} \
+            --query taskDefinition \
+            > task-definition.json
 
       - name: Update task definition with new image
         id: render-task
