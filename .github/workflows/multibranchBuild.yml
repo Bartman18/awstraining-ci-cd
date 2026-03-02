@@ -109,9 +109,9 @@ jobs:
           cluster: ${{ env.CLUSTER_NAME }}
 
       - name: Smoke test
-        if: ${{ !env.skipSmokeTests}}
+        if: ${{ !inputs.skipSmokeTests}}
         run: |
-          run: mvn -pl api-backend-v1-test test
+          mvn -pl api-backend-v1-test test -Dtest=SmokeBackendTest
       
       
 
