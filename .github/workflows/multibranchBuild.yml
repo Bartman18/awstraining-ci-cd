@@ -89,9 +89,9 @@ jobs:
       - name: Deploy to amazone
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          task-definition: ${{ env.TASK_NAME }}
           service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
+          cluster: ${{ env.CLUSTER_NAME }}
           
 
  pipelinePassed:
