@@ -20,11 +20,10 @@ on:
       hubEnv:
        description: Select target hub and stage
        required: true
-       type: string
-      #  type: choice
-      #  options:
-      #    - 'BACKEND_EMEA_TEST'
-       default: BACKEND_EMEA_TEST
+       type: choice
+       options:
+         - 'BACKEND_EMEA_TEST'
+       
 
       
 
