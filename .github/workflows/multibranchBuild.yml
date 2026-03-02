@@ -107,7 +107,14 @@ jobs:
           task-definition: ${{ steps.render-task.outputs.task-definition }}
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.CLUSTER_NAME }}
-          
+
+      - name: Smoke test
+        if: ${{env.skipSmokeTests}}
+        run: |
+          run: mvn -pl api-backend-v1-test test
+      
+      
+
 
  pipelinePassed:
    runs-on: ubuntu-latest
