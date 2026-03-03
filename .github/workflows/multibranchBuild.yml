@@ -5,7 +5,7 @@ on:
  push:
    branches:
      - main
-     - master
+    #  - master
      - release/*
      - feature/*
      - bugfix/*
@@ -17,12 +17,12 @@ on:
         required: false
         default: false
 
-      # hubEnv:
-      #  description: Select target hub and stage
-      #  required: true
-      #  type: choice
-      #  options:
-      #    - 'BACKEND_EMEA_TEST'
+      hubEnv:
+       description: Select target hub and stage
+       required: true
+       type: choice
+       options:
+         - 'BACKEND_EMEA_TEST'
        
 
       
@@ -32,7 +32,7 @@ jobs:
    #    TODO call datacenterMap reusable workflow to get AWS_ACCOUNT, PROFILE, REGION and other variables based on hubEnv input
     uses: ./.github/workflows/datacenterMap.yml
     with: 
-      hubEnv: "BACKEND_EMEA_TEST"
+      hubEnv: ${{inputs.hubEnv}}
     secrets: inherit
 
 
