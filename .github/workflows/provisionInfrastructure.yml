@@ -10,6 +10,7 @@ on:
        type: choice
        options:
          - 'BACKEND_EMEA_TEST'
+         - 'BACKEND_US_TEST'
 
 
 jobs:
@@ -35,7 +36,7 @@ jobs:
 
   steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
 
     - name: Install terraform
       uses: hashicorp/setup-terraform@v3
