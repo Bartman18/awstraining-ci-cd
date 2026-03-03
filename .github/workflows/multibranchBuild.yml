@@ -23,6 +23,7 @@ on:
        type: choice
        options:
          - 'BACKEND_EMEA_TEST'
+         - 'BACKEND_US_TEST'
        
 
       
@@ -89,36 +90,36 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:latest" >> $GITHUB_OUTPUT
 
-      # - name: download current task task-definition
-      #   run: |
-      #     aws ecs describe-task-definition \
-      #       --task-definition ${{ env.TASK_NAME }} \
-      #       --query taskDefinition \
-      #       > task-definition.json
+      - name: download current task task-definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition ${{ env.TASK_NAME }} \
+            --query taskDefinition \
+            > task-definition.json
 
-      # - name: Update task definition with new image
-      #   id: render-task
-      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
-      #   with:
-      #     task-definition: task-definition.json
-      #     container-name: backend
-      #     image: ${{steps.build-image.outputs.image}}
-          
-      # - name: Deploy to ECS
-      #   uses: aws-actions/amazon-ecs-deploy-task-definition@v2
-      #   with:
-      #     task-definition: ${{ steps.render-task.outputs.task-definition }}
-      #     service: ${{ env.ECS_SERVICE }}
-      #     cluster: ${{ env.CLUSTER_NAME }}
-      #     wait-for-service-stability: true
-
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      - name: Update task definition with new image
+        id: render-task
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: assembly-fargate/src/main/resources/fargate/BACKEND_EMEA_TEST/task.json
-          service: ${{ env.SERVICE_NAME }}
+          task-definition: task-definition.json
+          container-name: backend
+          image: ${{steps.build-image.outputs.image}}
+          
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render-task.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.CLUSTER_NAME }}
           wait-for-service-stability: true
+
+      # - name: Deploy Amazon ECS task definition
+      #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      #   with:
+      #     task-definition: assembly-fargate/src/main/resources/fargate/BACKEND_EMEA_TEST/task.json
+      #     service: ${{ env.SERVICE_NAME }}
+      #     cluster: ${{ env.CLUSTER_NAME }}
+      #     wait-for-service-stability: true
 
       - name: Smoke test
         if: ${{ !inputs.skipSmokeTests}}
