@@ -27,13 +27,15 @@ on:
        
 
       
+env:
+  HUB_ENV: ${{github.event.inputs.hubEnv || 'BACKEND_EMEA_TEST'}} 
 
 jobs:
  properties:
    #    TODO call datacenterMap reusable workflow to get AWS_ACCOUNT, PROFILE, REGION and other variables based on hubEnv input
     uses: ./.github/workflows/datacenterMap.yml
     with: 
-      hubEnv: ${{github.event.inputs.hubEnv || 'BACKEND_EMEA_TEST'}}  
+      hubEnv: ${{env.HUB_ENV}}  
     secrets: inherit
 
 
