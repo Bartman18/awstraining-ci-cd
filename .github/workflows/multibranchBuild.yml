@@ -118,8 +118,8 @@ jobs:
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
-          task-definition: assembly-fargate/src/main/resources/fargate/BACKEND_EMEA_TEST/task.json
-          service: ${{ env.SERVICE_NAME }}   
+          task-definition: assembly-fargate/src/main/resources/fargate/BACKEND_EMEA_TEST/task.json       
+          service: ${{ env.ECS_SERVICE }}   
           cluster: ${{ env.CLUSTER_NAME }}
           wait-for-service-stability: true
 
